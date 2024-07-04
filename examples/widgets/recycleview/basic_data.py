@@ -53,7 +53,7 @@ kv = """
             TextInput:
                 id: new_item_input
                 size_hint_x: 0.6
-                hint_text: 'value'
+                placeholder: 'value'
                 padding: dp(10), dp(10), 0, 0
         BoxLayout:
             spacing: dp(8)
@@ -63,7 +63,7 @@ kv = """
             TextInput:
                 id: update_item_input
                 size_hint_x: 0.6
-                hint_text: 'new value'
+                placeholder: 'new value'
                 padding: dp(10), dp(10), 0, 0
         Button:
             text: 'Remove first item'
@@ -91,23 +91,27 @@ class Test(BoxLayout):
 
     def populate(self):
         self.rv.data = [
-            {'name.text': ''.join(sample(ascii_lowercase, 6)),
-             'value': str(randint(0, 2000))}
-            for x in range(50)]
+            {
+                "name.text": "".join(sample(ascii_lowercase, 6)),
+                "value": str(randint(0, 2000)),
+            }
+            for x in range(50)
+        ]
 
     def sort(self):
-        self.rv.data = sorted(self.rv.data, key=lambda x: x['name.text'])
+        self.rv.data = sorted(self.rv.data, key=lambda x: x["name.text"])
 
     def clear(self):
         self.rv.data = []
 
     def insert(self, value):
-        self.rv.data.insert(0, {
-            'name.text': value or 'default value', 'value': 'unknown'})
+        self.rv.data.insert(
+            0, {"name.text": value or "default value", "value": "unknown"}
+        )
 
     def update(self, value):
         if self.rv.data:
-            self.rv.data[0]['name.text'] = value or 'default new value'
+            self.rv.data[0]["name.text"] = value or "default new value"
             self.rv.refresh_from_data()
 
     def remove(self):
@@ -120,5 +124,5 @@ class TestApp(App):
         return Test()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     TestApp().run()

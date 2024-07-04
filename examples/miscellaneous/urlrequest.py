@@ -17,7 +17,7 @@ BoxLayout:
 
     TextInput:
         id: ti
-        hint_text: 'type url or select from dropdown'
+        placeholder: 'type url or select from dropdown'
         size_hint_y: None
         height: 48
         multiline: False

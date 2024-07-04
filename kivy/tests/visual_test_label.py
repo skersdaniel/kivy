@@ -13,7 +13,7 @@ def layout_perf(label, repeat):
     if repeat:
         repeat = int(repeat)
     else:
-        return 'None'
+        return "None"
     return str(timeit.Timer(label._label.render).repeat(1, repeat))
 
 
@@ -21,16 +21,15 @@ def layout_real_perf(label, repeat):
     if repeat:
         repeat = int(repeat)
     else:
-        return 'None'
+        return "None"
     old_text = label._label.texture
     label._label.texture = label._label.texture_1px
-    res = str(timeit.Timer(partial(label._label.render, True)).repeat(1,
-                                                                      repeat))
+    res = str(timeit.Timer(partial(label._label.render, True)).repeat(1, repeat))
     label._label.texture = old_text
     return res
 
 
-kv = '''
+kv = """
 #:import tlp visual_test_label.layout_perf
 #:import tlrp visual_test_label.layout_real_perf
 
@@ -150,7 +149,7 @@ kv = '''
         TextInput:
             size_hint: None, None
             size: 100, 50
-            hint_text: 'split_str'
+            placeholder: 'split_str'
             on_text_validate: label.split_str = self.text
             multiline: False
         TLabel:
@@ -183,14 +182,14 @@ kv = '''
         TextInput:
             size_hint: None, None
             size: 100, 50
-            hint_text: 'text_size[0]'
+            placeholder: 'text_size[0]'
             on_text_validate: label.text_size = (int(self.text) if self.text\
             else None), label.text_size[1]
             multiline: False
         TextInput:
             size_hint: None, None
             size: 100, 50
-            hint_text: 'text_size[1]'
+            placeholder: 'text_size[1]'
             on_text_validate: label.text_size = label.text_size[0],\
             (int(self.text) if self.text else None)
             multiline: False
@@ -219,10 +218,10 @@ kv = '''
             width: 50
             text: str(int(slider.value))
 
-'''
+"""
 
 
-text = '''
+text = """
 Because it would spare your Majesty all fear of future \
 annoyance. If the lady loves her husband, she does not love your \
 Majesty. If she does not love your Majesty, there is no reason \
@@ -252,16 +251,16 @@ surprise. "Do you mean that she has left England?"
 Never to return.
 
 "And the papers?" asked the King hoarsely. "All is lost."
-'''
+"""
 
-words = re.split('( +|\\n+)', text)
+words = re.split("( +|\\n+)", text)
 
 
 def annotate(pre, post, callable, words):
     state = False
     i = random.randint(0, 4)
     while i < len(words):
-        if ' ' in words[i] or '\n' in words[i]:  # skip spaces
+        if " " in words[i] or "\n" in words[i]:  # skip spaces
             i += 1
             continue
         if not state:
@@ -272,12 +271,16 @@ def annotate(pre, post, callable, words):
         i += random.randint(1, 7)
 
 
-annotate('[size={0}]{1}', '{0}[/size]', partial(random.randint, 8, 24), words)
-annotate('[b]{1}', '{0}[/b]', str, words)
-annotate('[i]{1}', '{0}[/i]', str, words)
-annotate('[color={0}]{1}', '{0}[/color]',
-         lambda: get_hex_from_color(get_random_color()), words)
-annotated_text = ''.join(words)
+annotate("[size={0}]{1}", "{0}[/size]", partial(random.randint, 8, 24), words)
+annotate("[b]{1}", "{0}[/b]", str, words)
+annotate("[i]{1}", "{0}[/i]", str, words)
+annotate(
+    "[color={0}]{1}",
+    "{0}[/color]",
+    lambda: get_hex_from_color(get_random_color()),
+    words,
+)
+annotated_text = "".join(words)
 
 
 class LabelTest(GridLayout):
@@ -286,6 +289,6 @@ class LabelTest(GridLayout):
     sized_text = StringProperty(annotated_text)
 
 
-if __name__ in ('__main__', ):
+if __name__ in ("__main__",):
     Builder.load_string(kv)
     runTouchApp(LabelTest())
